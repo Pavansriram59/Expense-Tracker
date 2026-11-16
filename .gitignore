@@ -1,0 +1,145 @@
+# =============================================================================
+# Personal Finance Tracker — .gitignore
+# Covers: Kotlin/Android, Python/FastAPI, Angular/Node, IDE files
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Android / Kotlin
+# -----------------------------------------------------------------------------
+*.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+release/
+proguard/
+**/androidTest/
+**/test/
+# Kotlin build outputs
+**/*.kotlin_module
+
+# -----------------------------------------------------------------------------
+# Python / FastAPI / Backend
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+pip-wheel-metadata/
+*.egg-info/
+dist/
+*.egg
+.eggs/
+*.pyo
+*.pyd
+# Alembic — keep migrations, ignore cache
+backend/alembic/versions/__pycache__/
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+# Environment variables
+.env
+.env.*
+!.env.example
+# Logs
+*.log
+logs/
+
+# -----------------------------------------------------------------------------
+# Angular / Node.js / Web
+# -----------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.yarn/
+.pnp.*
+# Angular build output
+web/dist/
+web/.angular/
+web/.sass-cache/
+# TypeScript compiled output
+*.js.map
+*.d.ts.map
+# Environment files (use environment.ts, not .env)
+web/src/environments/environment.prod.ts
+
+# -----------------------------------------------------------------------------
+# Docker / Compose
+# -----------------------------------------------------------------------------
+docker-compose.override.yml
+
+# -----------------------------------------------------------------------------
+# IDE & Editor
+# -----------------------------------------------------------------------------
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json.example
+
+# JetBrains (IntelliJ IDEA, Android Studio, PyCharm, WebStorm)
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# -----------------------------------------------------------------------------
+# Secrets & Certificates (extra safety net)
+# -----------------------------------------------------------------------------
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+secrets/
+credentials/
