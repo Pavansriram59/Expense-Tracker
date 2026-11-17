@@ -86,8 +86,8 @@ Expense Tracker/                          ← Monorepo root
 
 ## 🗺️ Phased Development Roadmap
 
-- [x] **Milestone 0: Architecture & Repository Blueprint** (Complete system specs, schemas, contracts, guidelines).
-- [ ] **Milestone 1: Backend Infrastructure, Auth & Accounts** (PostgreSQL, FastAPI, JWT rotation, Account & Category CRUD, Alembic).
+- [x] **Milestone 0: Architecture & Backend Scaffolding** (System specs, modular monolith scaffold, settings, logging, health probes, Docker, Alembic, 23 Pytest tests).
+- [ ] **Milestone 1: Backend Domain Models, Auth & Accounts** (PostgreSQL tables, JWT rotation, Account & Category CRUD, Alembic migrations).
 - [ ] **Milestone 2: Android Core, Room & Offline SSOT** (Encrypted Room DB, Hilt DI, Accounts UI, offline storage).
 - [ ] **Milestone 3: Transactions & Non-Distorting Split Engine** (Transaction CRUD, Friends directory, Split bill logic, Settlements).
 - [ ] **Milestone 4: Android On-Device SMS Detection Pipeline** (SMS receiver, bank regex engine, synthetic test suite, Pending Review UI).

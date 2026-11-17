@@ -91,6 +91,7 @@ web/src/environments/environment.prod.ts
 # Docker / Compose
 # -----------------------------------------------------------------------------
 docker-compose.override.yml
+.pgdata*/
 
 # -----------------------------------------------------------------------------
 # IDE & Editor

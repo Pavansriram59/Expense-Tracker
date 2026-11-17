@@ -1,0 +1,60 @@
+# =============================================================================
+# Personal Finance Tracker — Local Development Docker Compose
+# =============================================================================
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: financetracker-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres_password}
+      POSTGRES_DB: ${POSTGRES_DB:-financetracker}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-financetracker}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: financetracker-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PROJECT_NAME: "Personal Finance Tracker"
+      ENVIRONMENT: "development"
+      DEBUG: "true"
+      SECRET_KEY: ${SECRET_KEY:-insecure-dev-secret-key-change-this-in-production-use-openssl-rand-hex-32}
+      POSTGRES_SERVER: "db"
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres_password}
+      POSTGRES_DB: ${POSTGRES_DB:-financetracker}
+      DATABASE_URL: "postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres_password}@db:5432/${POSTGRES_DB:-financetracker}"
+      CORS_ORIGINS: "http://localhost:3000,http://localhost:4200,http://localhost:8000"
+      LOG_LEVEL: "INFO"
+      LOG_FORMAT: "json"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/app/app:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  pgdata:
+    name: financetracker-pgdata

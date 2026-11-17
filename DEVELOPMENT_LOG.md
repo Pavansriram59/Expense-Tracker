@@ -24,6 +24,32 @@
 
 ---
 
+## 2026-11-17 — Backend Foundation & Infrastructure Scaffolding
+
+**Author:** Backend Engineer & Software Architect  
+**Scope:** backend | infra
+
+### What changed
+- Scaffolded modular monolith architecture under `backend/app/modules/` with 9 isolated domain packages: `auth`, `users`, `accounts`, `transactions`, `categories`, `split_expenses`, `settlements`, `budgets`, and `analytics`.
+- Implemented centralized, environment-driven Pydantic v2 configuration in `app/core/config.py` with dynamic URL computation, connection pooling, and CORS origin list parsing.
+- Implemented structured JSON logging in `app/core/logging.py` featuring a strict `PIIFilter` that redacts passwords, tokens, auth headers, and credit card numbers.
+- Implemented global domain exceptions and RFC 7807-compliant HTTP exception handlers in `app/core/exceptions.py`.
+- Implemented `/health` and `/health/db` health-check endpoints in `app/core/health.py` with connection latency measurement and 503 fallback handling.
+- Set up SQLAlchemy 2.0 async engine and session management in `app/db/session.py` with `TimestampMixin`, `SoftDeleteMixin`, and `UUIDPrimaryKeyMixin` in `app/db/base.py`.
+- Initialized Alembic with async template support, environment variable loading in `alembic/env.py`, and created `0001_initial_baseline` revision.
+- Created multi-stage `backend/Dockerfile` and root/backend `docker-compose.yml` orchestrating FastAPI backend and PostgreSQL 16 Alpine.
+- Built comprehensive Pytest test suite with 23 passing tests covering app startup, health endpoints, Pydantic settings, exception envelopes, and module status endpoints.
+
+### Decisions made
+- **Modular Monolith Packages (`app/modules/`):** Each module encapsulates its own router, service, schemas, and models to maintain clean separation of concerns and prevent cross-boundary leaks before domain features are added.
+- **Dynamic Database Driver URLs:** `Settings.async_database_url` defaults to `asyncpg` for high-throughput async FastAPI operations, while `Settings.sync_database_url` strips the async driver for sync database tooling.
+- **Strict PII Redaction at Filter Level:** Zero PII is written to console or logs by intercepting all log records through `PIIFilter` before stream formatting.
+
+### Next steps
+- Implement Milestone 1: Concrete SQLAlchemy models, schemas, and service logic for Auth (JWT token rotation) and Accounts (Bank, Credit Card, Cash, UPI).
+
+---
+
 ## 2026-11-16 — Comprehensive Technical Architecture & Phased Blueprint
 
 **Author:** Senior Software Architect  
