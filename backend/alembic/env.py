@@ -17,6 +17,10 @@ if BASE_DIR not in sys.path:
 from app.core.config import get_settings
 from app.db.base import Base
 
+# Explicitly register all domain models for migration autogenerate support
+import app.modules.auth.models  # noqa: F401
+import app.modules.users.models  # noqa: F401
+
 settings = get_settings()
 
 # this is the Alembic Config object, which provides

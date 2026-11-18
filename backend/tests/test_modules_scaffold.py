@@ -28,7 +28,7 @@ async def test_module_router_is_mounted_and_reachable(
     assert response.status_code == 200, f"Module {module_name} endpoint {endpoint} failed"
     data = response.json()
     assert data["module"] == module_name
-    assert data["status"] == "scaffolded"
+    assert data["status"] in ("scaffolded", "active")
     assert data["ready"] is True
 
 

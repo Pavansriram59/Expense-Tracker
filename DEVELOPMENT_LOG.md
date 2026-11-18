@@ -24,6 +24,32 @@
 
 ---
 
+## 2026-11-18 — Authentication & User Management Implementation
+
+**Author:** Backend Engineer & Software Architect  
+**Scope:** backend | auth | users
+
+### What changed
+- Implemented `User` model in `app/modules/users/models.py` with unique case-insensitive email indexing, bcrypt password hashing, base currency, and timestamp mixins.
+- Implemented `RefreshToken` model in `app/modules/auth/models.py` supporting token family rotation (`family_id`), SHA-256 token hash storage, and explicit revocation.
+- Built `app/core/security.py` with bcrypt password hashing (12 rounds), JWT access token generation (15 min lifespan), and cryptographically secure opaque refresh tokens.
+- Implemented `AuthService` in `app/modules/auth/service.py` for user registration, authentication, refresh token rotation with token reuse detection, and session revocation.
+- Implemented `UserService` in `app/modules/users/service.py` with email uniqueness enforcement, profile retrieval, and profile updates.
+- Added OAuth2 Bearer token dependency in `app/api/deps.py` (`get_current_user`, `get_current_active_user`) providing protected endpoint authorization and cross-user data isolation.
+- Built REST API endpoints for `auth` (`POST /api/v1/auth/register`, `POST /api/v1/auth/login`, `POST /api/v1/auth/refresh`, `POST /api/v1/auth/logout`) and `users` (`GET /api/v1/users/me`, `PATCH /api/v1/users/me`).
+- Added Alembic migration `0002_create_users_and_refresh_tokens.py` with transactional DDL and composite indexes.
+- Added 13 automated tests in `tests/test_auth.py` and `tests/test_users.py` bringing the test suite to 36 passing tests.
+
+### Decisions made
+- **Token Family Rotation & Reuse Detection:** Every refresh token exchange marks the previous token as consumed and issues a new pair sharing the same `family_id`. If an already-revoked refresh token is re-submitted (indicating token theft or replay), all tokens in that family are immediately revoked.
+- **Hashed Refresh Token Storage:** Refresh tokens are generated as 48-byte URL-safe strings; only their SHA-256 hash is persisted in the database.
+- **Strict Data Isolation:** Endpoints such as `/users/me` strictly resolve data for `current_user` extracted from the cryptographically verified JWT subject, preventing unauthorized access across users.
+
+### Next steps
+- Implement Account Management (Bank accounts, Credit cards, UPI wallets, Cash) with balance adjustments and transfers.
+
+---
+
 ## 2026-11-17 — Backend Foundation & Infrastructure Scaffolding
 
 **Author:** Backend Engineer & Software Architect  

@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 # Domain Exceptions (Raised in Services / Core, Never directly returning HTTP)
 # =============================================================================
 
-HTTP_422_STATUS = getattr(status, "HTTP_422_UNPROCESSABLE_CONTENT", status.HTTP_422_UNPROCESSABLE_ENTITY)
+HTTP_422_STATUS = getattr(status, "HTTP_422_UNPROCESSABLE_CONTENT", 422)
 
 
 class AppException(Exception):
